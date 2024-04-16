@@ -22,6 +22,6 @@ deploy:
   stage: deploy
   script:
     - docker load < my_image.tar || exit 1  # Load the Docker image from the tarball, exit if failed
-    # Add commands to deploy the image to a registry or server
+    # Add commands to deploy the image to a registry or serve
   only:
     - main
