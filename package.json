@@ -1,0 +1,14 @@
+{
+    "name": "my_project",
+    "version": "1.0.0",
+    "description": "A sample Node.js project",
+    "main": "src/app.js",
+    "scripts": {
+      "start": "node src/app.js",
+      "test": "echo 'No tests specified'"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+  }
+  

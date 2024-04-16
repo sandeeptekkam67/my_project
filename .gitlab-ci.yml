@@ -1,0 +1,27 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - docker build -t my_image .
+    - docker save my_image > my_image.tar
+  artifacts:
+    paths:
+      - my_image.tar
+
+test:
+  stage: test
+  script:
+    - docker load < my_image.tar
+    - docker run my_image npm test
+
+deploy:
+  stage: deploy
+  script:
+    - docker load < my_image.tar
+    # Add commands to deploy the image to a registry or server
+  only:
+    - main
