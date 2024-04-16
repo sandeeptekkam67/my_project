@@ -6,21 +6,22 @@ stages:
 build:
   stage: build
   script:
-    - docker build -t my_image .
-    - docker save my_image > my_image.tar
+    - docker build -t my_image . || exit 1  # Build the Docker image, exit if failed
+    - docker save my_image -o my_image.tar || exit 1  # Save the Docker image to a tarball, exit if failed
   artifacts:
     paths:
-      - my_image.tar
+      - my_image.tar  # Make the tarball artifact available for later stages
 
 test:
   stage: test
   script:
-    - docker load < my_image.tar
-    - docker run my_image npm test
+    - docker load < my_image.tar || exit 1  # Load the Docker image from the tarball, exit if failed
+    - docker run my_image npm test || exit 1  # Run tests inside a container, exit if failed
 
 deploy:
   stage: deploy
   script:
-    - docker load < my_image.tar
+    - docker load < my_image.tar || exit 1  # Load the Docker image from the tarball, exit if failed
     # Add commands to deploy the image to a registry or server
-  
+  only:
+    - main
