@@ -25,3 +25,4 @@ deploy:
     # Add commands to deploy the image to a registry or server
   only:
     - main
+
