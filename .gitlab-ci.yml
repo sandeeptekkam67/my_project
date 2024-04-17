@@ -3,25 +3,36 @@ stages:
   - test
   - deploy
 
+variables:
+  AWS_DEFAULT_REGION: "your_aws_region"
+  AWS_ACCESS_KEY_ID: "your_access_key_id"
+  AWS_SECRET_ACCESS_KEY: "your_secret_access_key"
+  ECR_REPO_URL: "your_ecr_repo_url"
+
 build:
   stage: build
   script:
     - docker build -t my_image . || exit 1  # Build the Docker image, exit if failed
-    - docker save my_image -o my_image.tar || exit 1  # Save the Docker image to a tarball, exit if failed
+    - docker save my_image | gzip > my_image.tar.gz || exit 1  # Save and compress the Docker image, exit if failed
   artifacts:
     paths:
-      - my_image.tar  # Make the tarball artifact available for later stages
+      - my_image.tar.gz  # Make the compressed tarball artifact available for later stages
 
 test:
   stage: test
   script:
-    - docker load < my_image.tar || exit 1  # Load the Docker image from the tarball, exit if failed
+    - gunzip -c my_image.tar.gz | docker load || exit 1  # Load the compressed Docker image from the tarball, exit if failed
     - docker run my_image npm test || exit 1  # Run tests inside a container, exit if failed
 
 deploy:
   stage: deploy
   script:
-    - docker load < my_image.tar || exit 1  # Load the Docker image from the tarball, exit if failed
-    # Add commands to deploy the image to a registry or serve
+    - gunzip -c my_image.tar.gz | docker load || exit 1  # Load the compressed Docker image from the tarball, exit if failed
+    # Authenticate with ECR
+    - $(aws ecr get-login --no-include-email)
+    # Tag the Docker image with the ECR repository URL
+    - docker tag my_image $ECR_REPO_URL/my_image:latest
+    # Push the Docker image to ECR
+    - docker push $ECR_REPO_URL/my_image:latest
   only:
-    - main
+    - master
