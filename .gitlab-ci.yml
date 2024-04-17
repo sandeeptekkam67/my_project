@@ -7,7 +7,7 @@ variables:
   AWS_DEFAULT_REGION: "us-east-2"
   AWS_ACCESS_KEY_ID: "AKIA4MTWKUQ3S6MMOSGS"
   AWS_SECRET_ACCESS_KEY: "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"
-  ECR_REPO_URL: "public.ecr.aws/f2s4m0c9/docker-poc"
+  ECR_REPO_URL: "public.ecr.aws/f2s4m0c9/docker-poc/my_imag"
 
 build:
   stage: build
@@ -27,6 +27,7 @@ build:
 deploy:
   stage: deploy
   script:
+    - aws ecr-public create-repository --repository-name docker-poc/my_image --region us-east-1
     - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f2s4m0c9
     - docker tag my_image $ECR_REPO_URL/my_image:latest
     - docker push $ECR_REPO_URL/my_image:latest
