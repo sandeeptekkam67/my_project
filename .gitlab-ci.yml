@@ -27,6 +27,6 @@ deploy:
     - docker tag my_image:latest public.ecr.aws/f2s4m0c9/my_image:latest
     - docker push public.ecr.aws/f2s4m0c9/my_image:latest
     - aws eks --region us-west-2 update-kubeconfig --name my_project
-    - kubectl apply -f kubernetes/deployment.yaml
-    - kubectl apply -f kubernetes/service.yaml
+    - kubectl apply -f deployment.yaml
+    - kubectl apply -f service.yaml
     
