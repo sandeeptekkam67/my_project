@@ -27,12 +27,10 @@ build:
 deploy:
   stage: deploy
   script:
-    - gunzip -c my_image.tar.gz | docker load || exit 1  # Load the compressed Docker image from the tarball, exit if failed
-    # Authenticate with ECR
-    - $(aws ecr get-login --no-include-email)
-    # Tag the Docker image with the ECR repository URL
+    - /usr/local/bin/aws ecr get-login --no-include-email | sh
     - docker tag my_image $ECR_REPO_URL/my_image:latest
-    # Push the Docker image to ECR
     - docker push $ECR_REPO_URL/my_image:latest
+
+
   only:
     - main
