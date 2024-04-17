@@ -4,10 +4,10 @@ stages:
   - deploy
 
 variables:
-  AWS_DEFAULT_REGION: "your_aws_region"
-  AWS_ACCESS_KEY_ID: "your_access_key_id"
-  AWS_SECRET_ACCESS_KEY: "your_secret_access_key"
-  ECR_REPO_URL: "your_ecr_repo_url"
+  AWS_DEFAULT_REGION: "us-east-2"
+  AWS_ACCESS_KEY_ID: "AKIA4MTWKUQ3S6MMOSGS"
+  AWS_SECRET_ACCESS_KEY: "OdGNtPvMarmJZgbJaOt8sCoyW/RCuQK5aT6lKRSe"
+  ECR_REPO_URL: "public.ecr.aws/f2s4m0c9/docker-poc"
 
 build:
   stage: build
