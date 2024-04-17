@@ -1,0 +1,23 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-project-deployment
+  labels:
+    app: my-project
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-project
+  template:
+    metadata:
+      labels:
+        app: my-project
+    spec:
+      containers:
+      - name: my-project-container
+        image: public.ecr.aws/f2s4m0c9/my_image:latest  # Update with your ECR image URL
+        ports:
+        - containerPort: 80
