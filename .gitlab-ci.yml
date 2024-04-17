@@ -27,7 +27,7 @@ build:
 deploy:
   stage: deploy
   script:
-    - /usr/local/bin/aws ecr get-login --no-include-email | sh
+    - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f2s4m0c9
     - docker tag my_image $ECR_REPO_URL/my_image:latest
     - docker push $ECR_REPO_URL/my_image:latest
 
