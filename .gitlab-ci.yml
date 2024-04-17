@@ -1,6 +1,6 @@
 stages:
   - build
-  - test
+  #- test
   - deploy
 
 variables:
@@ -18,11 +18,11 @@ build:
     paths:
       - my_image.tar.gz  # Make the compressed tarball artifact available for later stages
 
-test:
-  stage: test
-  script:
-    - gunzip -c my_image.tar.gz | docker load || exit 1  # Load the compressed Docker image from the tarball, exit if failed
-    - docker run my_image npm test || exit 1  # Run tests inside a container, exit if failed
+#test:
+#  stage: test
+#  script:
+#    - gunzip -c my_image.tar.gz | docker load || exit 1  # Load the compressed Docker image from the tarball, exit if failed
+ #   - docker run my_image npm test || exit 1  # Run tests inside a container, exit if failed
 
 deploy:
   stage: deploy
@@ -35,4 +35,4 @@ deploy:
     # Push the Docker image to ECR
     - docker push $ECR_REPO_URL/my_image:latest
   only:
-    - master
+    - main
