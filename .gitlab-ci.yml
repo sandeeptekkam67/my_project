@@ -29,4 +29,4 @@ deploy:
     - aws eks --region us-west-2 update-kubeconfig --name my_project
     - kubectl apply -f deployment.yaml
     - kubectl apply -f service.yaml
-    
+  
