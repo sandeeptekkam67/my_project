@@ -22,7 +22,9 @@ build:
 deploy:
   stage: deploy
   script:
-    
+    - aws configure set aws_access_key_id AKIA4MTWKUQ3S6MMOSGS
+    - aws configure set aws_secret_access_key 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
+    - aws configure set region us-west-2
     - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f2s4m0c9
     - docker tag my_image:latest public.ecr.aws/f2s4m0c9/my_image:latest
     - docker push public.ecr.aws/f2s4m0c9/my_image:latest
